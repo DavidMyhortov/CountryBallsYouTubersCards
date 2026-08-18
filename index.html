@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>CountryBalls Cards | Официальный сайт</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0e17;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: radial-gradient(ellipse at 20% 50%, #0d1b2a 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 50%, #1a0a2e 0%, transparent 60%);
+        }
+
+        .bg::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle at 30% 40%, rgba(255, 215, 0, 0.02) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 60%, rgba(138, 43, 226, 0.02) 0%, transparent 50%);
+            animation: rotate 60s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 100%;
+            padding: 12px 16px 20px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0 16px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+        }
+
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFD700, #FF8C00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-sub {
+            font-size: 0.6rem;
+            color: #666;
+            -webkit-text-fill-color: #666;
+            display: block;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-small {
+            background: linear-gradient(135deg, #FFD700, #FF8C00);
+            color: #0a0e17;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: transform 0.2s;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-small:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .auth-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #0088cc;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .auth-btn:hover {
+            background: #0099dd;
+            transform: scale(1.03);
+        }
+
+        .auth-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 25px;
+            padding: 4px 12px 4px 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .user-profile:hover {
+            border-color: rgba(255, 215, 0, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #FFD700;
+            object-fit: cover;
+        }
+
+        .user-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #fff;
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .user-status {
+            font-size: 0.5rem;
+            color: #4CAF50;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #ff4444;
+            cursor: pointer;
+            font-size: 0.7rem;
+            padding: 0 3px;
+        }
+
+        .logout-btn:hover {
+            color: #ff6666;
+        }
+
+        .hero {
+            padding: 30px 0 20px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.12);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #FFD700;
+            margin-bottom: 14px;
+        }
+
+        .hero-title {
+            font-size: 2rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+
+        .hero-title .gold {
+            background: linear-gradient(135deg, #FFD700, #FF8C00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-title .blue {
+            background: linear-gradient(135deg, #00D4FF, #7B2FBE);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-desc {
+            font-size: 0.95rem;
+            color: #999;
+            line-height: 1.6;
+            max-width: 400px;
+            margin: 0 auto 20px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FFD700, #FF8C00);
+            color: #0a0e17;
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: transform 0.2s;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            max-width: 200px;
+            text-align: center;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.03);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ddd;
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-block;
+            width: 100%;
+            max-width: 200px;
+            text-align: center;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .stat-item:hover {
+            transform: scale(1.05);
+        }
+
+        .stat-number {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #FFD700;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: #666;
+        }
+
+        .mini-cards {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 6px;
+            max-width: 320px;
+            margin: 20px auto 0;
+        }
+
+        .mini-card {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.2s;
+        }
+
+        .mini-card.c1 { border-color: rgba(200,200,200,0.15); }
+        .mini-card.c2 { border-color: rgba(66,133,244,0.2); }
+        .mini-card.c3 { border-color: rgba(156,39,176,0.2); }
+        .mini-card.c4 { border-color: rgba(255,215,0,0.3); }
+        .mini-card.c5 { border-color: rgba(244,67,54,0.2); }
+        .mini-card.c6 { border-color: rgba(0,229,255,0.2); }
+
+        .section {
+            padding: 30px 0 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .section-title .gold {
+            background: linear-gradient(135deg, #FFD700, #FF8C00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-sub {
+            text-align: center;
+            color: #666;
+            font-size: 0.85rem;
+            max-width: 350px;
+            margin: 0 auto 20px;
+            line-height: 1.5;
+        }
+
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .card-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 16px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-item:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 215, 0, 0.15);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .card-item .card-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .card-item .card-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .card-item .card-info {
+            flex: 1;
+        }
+
+        .card-item .card-name {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .card-item .card-rarity {
+            font-size: 0.7rem;
+            padding: 2px 10px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-top: 3px;
+        }
+
+        .card-item .card-rarity.common { background: rgba(200,200,200,0.12); color: #ccc; }
+        .card-item .card-rarity.rare { background: rgba(66,133,244,0.12); color: #4A90D9; }
+        .card-item .card-rarity.epic { background: rgba(156,39,176,0.12); color: #9C27B0; }
+        .card-item .card-rarity.legendary { background: rgba(255,215,0,0.12); color: #FFD700; }
+        .card-item .card-rarity.secret { background: rgba(244,67,54,0.12); color: #F44336; }
+        .card-item .card-rarity.exclusive { background: rgba(0,229,255,0.12); color: #00E5FF; }
+
+        .card-item .card-desc {
+            color: #999;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            margin: 6px 0;
+        }
+
+        .card-item .card-stats {
+            display: flex;
+            gap: 12px;
+            font-size: 0.7rem;
+            color: #777;
+            flex-wrap: wrap;
+        }
+
+        .card-item .card-stats span {
+            background: rgba(255,255,255,0.03);
+            padding: 2px 10px;
+            border-radius: 10px;
+        }
+
+        .card-item .card-stats .points { color: #FFD700; }
+
+        .card-item .card-locked {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 14, 23, 0.88);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            backdrop-filter: blur(4px);
+            gap: 6px;
+        }
+
+        .card-item .card-locked .lock-icon {
+            font-size: 2.5rem;
+        }
+        .card-item .card-locked .lock-text {
+            color: #666;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .card-item .card-owned {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #4CAF50;
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+
+        .rating-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .rating-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 10px 14px;
+            transition: all 0.2s;
+        }
+
+        .rating-item:hover {
+            border-color: rgba(255, 215, 0, 0.1);
+        }
+
+        .rating-item .place {
+            font-size: 1.2rem;
+            font-weight: 800;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .rating-item .place.gold { color: #FFD700; }
+        .rating-item .place.silver { color: #C0C0C0; }
+        .rating-item .place.bronze { color: #CD7F32; }
+
+        .rating-item .ruser {
+            flex: 1;
+            font-weight: 600;
+            font-size: 0.9rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .rating-item .rrank {
+            font-size: 0.75rem;
+            color: #FFD700;
+            background: rgba(255,215,0,0.08);
+            padding: 2px 10px;
+            border-radius: 10px;
+        }
+
+        .rating-item .rpoints {
+            font-size: 0.8rem;
+            color: #4CAF50;
+            font-weight: 600;
+        }
+
+        .rating-item .rcards {
+            font-size: 0.7rem;
+            color: #666;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 16px 12px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .feature:active {
+            transform: scale(0.97);
+        }
+
+        .feature-icon {
+            font-size: 1.8rem;
+            margin-bottom: 6px;
+        }
+
+        .feature-name {
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .feature-desc {
+            font-size: 0.7rem;
+            color: #777;
+            margin-top: 4px;
+            line-height: 1.3;
+        }
+
+        .rarity-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .rarity-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 14px 8px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .rarity-item .emoji {
+            font-size: 1.6rem;
+            display: block;
+        }
+        .rarity-item .rname {
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+        .rarity-item .rchance {
+            font-size: 0.6rem;
+            color: #666;
+        }
+        .rarity-item .rpoints {
+            font-size: 0.6rem;
+            color: #FFD700;
+        }
+
+        .rarity-item.r1 .rname { color: #ccc; }
+        .rarity-item.r2 .rname { color: #4A90D9; }
+        .rarity-item.r3 .rname { color: #9C27B0; }
+        .rarity-item.r4 .rname { color: #FFD700; }
+        .rarity-item.r5 .rname { color: #F44336; }
+        .rarity-item.r6 .rname { color: #00E5FF; }
+
+        .promo-box {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.12);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+
+        .promo-code {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.08);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #FFD700;
+            letter-spacing: 1px;
+            border: 1px dashed rgba(255, 215, 0, 0.2);
+            margin: 6px 0;
+        }
+
+        .promo-reward {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .promo-hint {
+            font-size: 0.65rem;
+            color: #555;
+            margin-top: 8px;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+        }
+
+        .link-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px 12px;
+            text-align: center;
+            text-decoration: none;
+            color: #ddd;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .link-item:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 215, 0, 0.15);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            color: #fff;
+        }
+
+        .link-item .link-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .link-item .link-icon.tg { background: #0088cc; }
+        .link-item .link-icon.chat { background: #00D4FF; }
+        .link-item .link-icon.yt { background: #FF0000; }
+        .link-item .link-icon.bot { background: linear-gradient(135deg, #FFD700, #FF8C00); }
+        .link-item .link-icon.rbx { background: #9146FF; }
+
+        .link-item .link-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .link-item .link-desc {
+            font-size: 0.6rem;
+            color: #666;
+        }
+
+        .link-item .link-tooltip {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.6rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .link-item:hover .link-tooltip {
+            opacity: 1;
+        }
+
+        .roblox-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 215, 0, 0.1);
+            border-radius: 14px;
+            padding: 20px 30px;
+            text-align: center;
+            max-width: 350px;
+            margin: 0 auto;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .roblox-btn:hover {
+            border-color: rgba(255, 215, 0, 0.25);
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .roblox-btn .roblox-icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .roblox-btn .roblox-label {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #FFD700;
+        }
+
+        .roblox-btn .roblox-sub {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .roblox-btn .coming-soon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 215, 0, 0.1);
+            color: #FFD700;
+            padding: 3px 12px;
+            border-radius: 12px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            border: 1px solid rgba(255, 215, 0, 0.15);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            color: #FFD700;
+            padding: 14px 28px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            opacity: 0;
+            transition: all 0.5s ease;
+            text-align: center;
+            max-width: 90%;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #141c2b;
+            border: 1px solid rgba(255, 215, 0, 0.12);
+            border-radius: 20px;
+            padding: 35px 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            animation: modalFade 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalFade {
+            from { opacity: 0; transform: scale(0.95) translateY(-20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal .modal-icon {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+        }
+
+        .modal h2 {
+            font-size: 1.4rem;
+            margin-bottom: 6px;
+        }
+
+        .modal p {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .modal .auth-btn {
+            width: 100%;
+            justify-content: center;
+            padding: 12px;
+            font-size: 1rem;
+        }
+
+        .modal .close-modal {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: color 0.3s;
+        }
+
+        .modal .close-modal:hover {
+            color: #fff;
+        }
+
+        .update-text {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 20px;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: #aaa;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .update-text .highlight-gold {
+            color: #FFD700;
+            font-weight: 600;
+        }
+
+        .update-text .highlight-blue {
+            color: #00D4FF;
+            font-weight: 600;
+        }
+
+        .update-text ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .update-text ul li {
+            padding: 4px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .update-text ul li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #FFD700;
+        }
+
+        .profile-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .profile-card-mini {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.7rem;
+        }
+
+        .profile-card-mini .pc-emoji {
+            font-size: 1.5rem;
+        }
+        .profile-card-mini .pc-name {
+            font-weight: 600;
+            font-size: 0.65rem;
+            margin-top: 4px;
+        }
+        .profile-card-mini .pc-rarity {
+            font-size: 0.55rem;
+            color: #888;
+        }
+        .profile-card-mini .pc-owned {
+            color: #4CAF50;
+            font-size: 0.5rem;
+        }
+
+        .footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 20px 0 10px;
+            text-align: center;
+            color: #444;
+            font-size: 0.7rem;
+        }
+
+        .footer .version {
+            color: #FFD700;
+            font-weight: 600;
+        }
+
+        @media (max-width: 400px) {
+            .hero-title { font-size: 1.6rem; }
+            .mini-cards { max-width: 240px; gap: 4px; }
+            .mini-card { font-size: 1rem; }
+            .grid-2 { gap: 8px; }
+            .feature { padding: 12px 8px; }
+            .feature-icon { font-size: 1.4rem; }
+            .btn-primary, .btn-secondary { font-size: 0.85rem; padding: 10px 20px; }
+            .stats { gap: 20px; }
+            .stat-number { font-size: 1.2rem; }
+            .collection-grid { grid-template-columns: 1fr; }
+            .links-grid { grid-template-columns: repeat(2, 1fr); }
+            .rarity-grid { grid-template-columns: repeat(3, 1fr); }
+            .profile-cards-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (min-width: 600px) {
+            .container { max-width: 600px; margin: 0 auto; padding: 20px 30px; }
+            .hero-title { font-size: 2.8rem; }
+            .grid-2 { grid-template-columns: repeat(3, 1fr); }
+            .links-grid { grid-template-columns: repeat(5, 1fr); }
+            .rarity-grid { grid-template-columns: repeat(6, 1fr); }
+            .collection-grid { grid-template-columns: repeat(2, 1fr); }
+            .profile-cards-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (min-width: 900px) {
+            .container { max-width: 1000px; }
+            .hero { display: flex; align-items: center; gap: 40px; text-align: left; padding: 50px 0; }
+            .hero-desc { margin: 0 0 20px; }
+            .hero-buttons { justify-content: flex-start; }
+            .hero-buttons .btn-primary, .hero-buttons .btn-secondary { width: auto; }
+            .stats { justify-content: flex-start; }
+            .mini-cards { margin: 0; }
+            .collection-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0a0e17; }
+        ::-webkit-scrollbar-thumb { background: #FFD700; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="bg"></div>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <div class="modal-icon">🔐</div>
+            <h2>Вход в аккаунт</h2>
+            <p>Авторизуйтесь через Telegram, чтобы увидеть свою коллекцию и статистику</p>
+            <a href="https://t.me/jfhsbxndjejskks_bot?start=web_auth" target="_blank" class="auth-btn" style="width:100%; justify-content:center; padding:12px; font-size:1rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white">
+                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                </svg>
+                Войти через Telegram
+            </a>
+            <button class="close-modal" onclick="closeLoginModal()">Закрыть</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal">
+            <div class="modal-icon">👤</div>
+            <h2 id="profileName">Игрок</h2>
+            <p id="profileStats">🎖️ Ранг: 1 | 💰 Очков: 0 | 🃏 Карт: 0</p>
+            <div style="border-top: 1px solid rgba(255,255,255,0.05); margin: 10px 0; padding-top: 10px;">
+                <p style="color:#888; font-size:0.8rem;">📦 Ваша коллекция:</p>
+                <div id="profileCards" class="profile-cards-grid"></div>
+            </div>
+            <button class="close-modal" onclick="closeProfileModal()">Закрыть</button>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">🃏</span>
+                <div>
+                    <span class="logo-text">CBYT</span>
+                    <span class="logo-sub">CountryBalls Cards</span>
+                </div>
+            </div>
+            <div class="header-buttons">
+                <div class="auth-section" id="authSection"></div>
+                <a href="https://t.me/jfhsbxndjejskks_bot" target="_blank" class="btn-small">🚀 Играть</a>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">🎯 ВЕРСИЯ 14.5</div>
+                <h1 class="hero-title">
+                    Собирай <span class="gold">карточки</span><br>
+                    <span class="blue">ютуберов</span> CountryBalls
+                </h1>
+                <p class="hero-desc">
+                    Коллекционная игра в Telegram. Собирай уникальные карточки, 
+                    повышай ранг и стань лучшим коллекционером!
+                </p>
+                <div class="hero-buttons">
+                    <a href="https://t.me/jfhsbxndjejskks_bot" target="_blank" class="btn-primary">🚀 Играть</a>
+                    <a href="#collection" class="btn-secondary">📖 Коллекция</a>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalCards">26</div>
+                        <div class="stat-label">Всего карт</div>
+                    </div>
+                    <div class="stat-item" onclick="openProfileModal()">
+                        <div class="stat-number" id="userCards">0</div>
+                        <div class="stat-label">Ваших карт</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Редкостей</div>
+                    </div>
+                </div>
+            </div>
+            <div class="mini-cards">
+                <div class="mini-card c1">⚪</div>
+                <div class="mini-card c2">🔵</div>
+                <div class="mini-card c3">🟣</div>
+                <div class="mini-card c4">🟡</div>
+                <div class="mini-card c5">🔴</div>
+                <div class="mini-card c6">🔮</div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">📢 <span class="gold">Обновление 14.5</span></h2>
+            <p class="section-sub">Что появилось в игре</p>
+
+            <div class="update-text">
+                <p style="text-align:center; font-size:1.1rem; margin-bottom:12px;">
+                    🎉 <span class="highlight-gold">ВСТРЕЧАЙТЕ ОБНОВЛЕНИЕ 14.5!</span> 🎉
+                </p>
+                <p>
+                    Мы продолжаем развивать <span class="highlight-gold">CountryBalls Cards YouTubers</span> 
+                    и рады представить вам новую версию бота. В этом обновлении мы добавили множество 
+                    новых функций, исправили ошибки и сделали игру ещё удобнее!
+                </p>
+                <br>
+                <p style="font-weight:700; color:#ddd;">🆕 ЧТО НОВОГО:</p>
+                <ul>
+                    <li><span class="highlight-gold">🎁 Новый промокод "YouTube"</span> — введите его в боте и получите 4500 очков!</li>
+                    <li><span class="highlight-blue">👑 Улучшенная админ-панель</span> — теперь администратор может выдавать карты и очки любому пользователю по ID.</li>
+                    <li><span class="highlight-gold">📋 Список пользователей</span> — просматривайте всех игроков с их ID, рангом, очками и картами.</li>
+                    <li><span class="highlight-blue">🌐 Новый сайт</span> — теперь вы можете следить за игрой прямо в браузере!</li>
+                </ul>
+                <br>
+                <p style="font-weight:700; color:#ddd;">📌 ЧТО УЖЕ ЕСТЬ В ИГРЕ:</p>
+                <ul>
+                    <li><span class="highlight-gold">🎰 Рулетка</span> — крути каждые 30 минут и получай случайную карту.</li>
+                    <li><span class="highlight-blue">🎁 Ежедневный бонус</span> — заходи каждый день и получай от 1000 до 5000 очков + карту.</li>
+                    <li><span class="highlight-gold">🏪 Рынок</span> — покупай карты за очки, обновляется каждый час.</li>
+                    <li><span class="highlight-blue">⚒️ Крафт</span> — создавай карты высших редкостей из обычных.</li>
+                    <li><span class="highlight-gold">💰 Продажа</span> — продавай карты за очки (50% от стоимости получения).</li>
+                    <li><span class="highlight-blue">🏆 Рейтинг</span> — соревнуйся с другими игроками и попади в топ-10.</li>
+                </ul>
+                <br>
+                <p style="text-align:center; color:#888; font-size:0.8rem;">
+                    📢 Подпишись на канал: <span class="highlight-gold">@TheCardsCBYT</span> 
+                    💬 Чат: <span class="highlight-blue">@CBYTCardsCHAT</span>
+                </p>
+                <p style="text-align:center; color:#666; font-size:0.75rem; margin-top:8px;">
+                    🔥 Удачи в сборе коллекции!
+                </p>
+            </div>
+        </section>
+
+        <!-- КОЛЛЕКЦИЯ -->
+        <section class="section" id="collection">
+            <h2 class="section-title">🃏 <span class="gold">Коллекция</span> карточек</h2>
+            <p class="section-sub">Все ютуберы, представленные в игре</p>
+
+            <div id="collectionContainer"></div>
+        </section>
+
+        <!-- РЕЙТИНГ -->
+        <section class="section" id="rating">
+            <h2 class="section-title">🏆 <span class="gold">Рейтинг</span> игроков</h2>
+            <p class="section-sub">Топ-10 лучших коллекционеров</p>
+
+            <div id="ratingContainer"></div>
+        </section>
+
+        <!-- ВОЗМОЖНОСТИ -->
+        <section class="section">
+            <h2 class="section-title">⚡ <span class="gold">Возможности</span> бота</h2>
+            <p class="section-sub">Всё, что ты можешь делать в игре</p>
+
+            <div class="grid-2">
+                <div class="feature">
+                    <div class="feature-icon">🎰</div>
+                    <div class="feature-name">Рулетка</div>
+                    <div class="feature-desc">Крути каждые 30 минут</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🎁</div>
+                    <div class="feature-name">Бонус 24ч</div>
+                    <div class="feature-desc">Очки + карта каждый день</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🏪</div>
+                    <div class="feature-name">Рынок</div>
+                    <div class="feature-desc">Покупай карты за очки</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">⚒️</div>
+                    <div class="feature-name">Крафт</div>
+                    <div class="feature-desc">Создавай редкие карты</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">💰</div>
+                    <div class="feature-name">Продажа</div>
+                    <div class="feature-desc">Продавай карты за очки</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🏆</div>
+                    <div class="feature-name">Рейтинг</div>
+                    <div class="feature-desc">Соревнуйся с другими</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- РЕДКОСТИ -->
+        <section class="section">
+            <h2 class="section-title">📊 <span class="gold">Редкости</span> карточек</h2>
+            <p class="section-sub">Каждая карта имеет свою ценность</p>
+
+            <div class="rarity-grid">
+                <div class="rarity-item r1">
+                    <span class="emoji">⚪</span>
+                    <div class="rname">Обычный</div>
+                    <div class="rchance">Шанс 50%</div>
+                    <div class="rpoints">1000 очков</div>
+                </div>
+                <div class="rarity-item r2">
+                    <span class="emoji">🔵</span>
+                    <div class="rname">Редкий</div>
+                    <div class="rchance">Шанс 25%</div>
+                    <div class="rpoints">3500 очков</div>
+                </div>
+                <div class="rarity-item r3">
+                    <span class="emoji">🟣</span>
+                    <div class="rname">Эпический</div>
+                    <div class="rchance">Шанс 10%</div>
+                    <div class="rpoints">7000 очков</div>
+                </div>
+                <div class="rarity-item r4">
+                    <span class="emoji">🟡</span>
+                    <div class="rname">Легендарный</div>
+                    <div class="rchance">Шанс 5%</div>
+                    <div class="rpoints">15000 очков</div>
+                </div>
+                <div class="rarity-item r5">
+                    <span class="emoji">🔴</span>
+                    <div class="rname">Секретный</div>
+                    <div class="rchance">Шанс 3%</div>
+                    <div class="rpoints">30000 очков</div>
+                </div>
+                <div class="rarity-item r6">
+                    <span class="emoji">🔮</span>
+                    <div class="rname">Эксклюзивный</div>
+                    <div class="rchance">Шанс 0.01%</div>
+                    <div class="rpoints">100000 очков</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ПРОМОКОД УБРАН -->
+
+        <!-- ROBLOX -->
+        <section class="section">
+            <h2 class="section-title">🎮 <span class="gold">Скоро</span></h2>
+            <p class="section-sub">Новые проекты в разработке</p>
+
+            <div class="roblox-btn" onclick="showToast('🚀 Скоро будет! Мы работаем над этим. Следите за новостями в канале!')">
+                <span class="coming-soon">🚀 СКОРО</span>
+                <span class="roblox-icon">🟦</span>
+                <div class="roblox-label">Наша игра в Roblox</div>
+                <div class="roblox-sub">Мы создаём уникальный мир CountryBalls в Roblox!</div>
+                <div style="margin-top:8px; font-size:0.65rem; color:#555;">
+                    🌟 Уже в разработке
+                </div>
+            </div>
+        </section>
+
+        <!-- ССЫЛКИ -->
+        <section class="section">
+            <h2 class="section-title">🔗 <span class="gold">Ресурсы</span></h2>
+            <p class="section-sub">Присоединяйся к сообществу</p>
+
+            <div class="links-grid">
+                <a href="https://t.me/TheCardsCBYT" target="_blank" class="link-item l1">
+                    <span class="link-icon tg">📢</span>
+                    <div class="link-label">Канал</div>
+                    <div class="link-desc">Новости</div>
+                    <div class="link-tooltip">Перейти в Telegram</div>
+                </a>
+                <a href="https://t.me/CBYTCardsCHAT" target="_blank" class="link-item l2">
+                    <span class="link-icon chat">💬</span>
+                    <div class="link-label">Чат</div>
+                    <div class="link-desc">Общение</div>
+                    <div class="link-tooltip">Перейти в Telegram</div>
+                </a>
+                <a href="https://www.youtube.com/@CBYTGloball" target="_blank" class="link-item l3">
+                    <span class="link-icon yt">▶️</span>
+                    <div class="link-label">YouTube</div>
+                    <div class="link-desc">Видео</div>
+                    <div class="link-tooltip">Перейти на YouTube</div>
+                </a>
+                <a href="https://t.me/jfhsbxndjejskks_bot" target="_blank" class="link-item l4">
+                    <span class="link-icon bot">🤖</span>
+                    <div class="link-label">Бот</div>
+                    <div class="link-desc">Играть</div>
+                    <div class="link-tooltip">Перейти в Telegram</div>
+                </a>
+                <a href="#" class="link-item l5" onclick="showToast('🚀 Скоро будет! Мы работаем над этим!')">
+                    <span class="link-icon rbx">🟦</span>
+                    <div class="link-label">Roblox</div>
+                    <div class="link-desc">Скоро</div>
+                    <div class="link-tooltip">Скоро будет доступно</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- ИНФО -->
+        <section class="section">
+            <h2 class="section-title">📖 <span class="gold">О проекте</span></h2>
+            <p style="text-align:center; color:#888; font-size:0.85rem; line-height:1.6; max-width:400px; margin:0 auto;">
+                <strong>CountryBalls Cards YouTubers</strong> — коллекционная игра в Telegram 
+                для фанатов CountryBalls. Создатель: <strong>@BlockDavidYT</strong>
+                <br><br>
+                🤖 Версия: <span style="color:#FFD700;">14.5</span>
+                <br>
+                👥 Сообщество: <span style="color:#00D4FF;">100+ игроков</span>
+            </p>
+        </section>
+
+        <footer class="footer">
+            <p>🃏 <span class="version">CBYT v14.5</span> | @BlockDavidYT</p>
+            <p style="margin-top:4px;">© 2026 Все права защищены</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // --- ДАННЫЕ КАРТОЧЕК ---
+        const CARDS_DATA = [
+            { name: "Стедка", rarity: "Обычный", emoji: "⚪", desc: "Обычная карточка", chance: "50%", points: "1000", image: "https://via.placeholder.com/60/0a0e17/FFD700?text=🃏" },
+            { name: "Бульбо", rarity: "Обычный", emoji: "⚪", desc: "Обычная карточка", chance: "50%", points: "1000", image: "https://via.placeholder.com/60/0a0e17/FFD700?text=🃏" },
+            { name: "Никита Равло", rarity: "Обычный", emoji: "⚪", desc: "Обычная карточка", chance: "50%", points: "1000", image: "https://via.placeholder.com/60/0a0e17/FFD700?text=🃏" },
+            { name: "Makaraonshik", rarity: "Обычный", emoji: "⚪", desc: "Обычная карточка", chance: "50%", points: "1000", image: "https://via.placeholder.com/60/0a0e17/FFD700?text=🃏" },
+            { name: "Ksarn", rarity: "Обычный", emoji: "⚪", desc: "Обычная карточка", chance: "50%", points: "1000", image: "https://via.placeholder.com/60/0a0e17/FFD700?text=🃏" },
+            { name: "Дмитрий Василёк", rarity: "Обычный", emoji: "⚪", desc: "Обычная карточка", chance: "50%", points: "1000", image: "https://via.placeholder.com/60/0a0e17/FFD700?text=🃏" },
+            { name: "Узбек Кантриболз", rarity: "Обычный", emoji: "⚪", desc: "Обычная карточка", chance: "50%", points: "1000", image: "https://via.placeholder.com/60/0a0e17/FFD700?text=🃏" },
+            { name: "Глеб89К", rarity: "Редкий", emoji: "🔵", desc: "Редкая карточка", chance: "25%", points: "3500", image: "https://via.placeholder.com/60/0a0e17/4A90D9?text=🃏" },
+            { name: "BlockinCB", rarity: "Редкий", emoji: "🔵", desc: "Редкая карточка", chance: "25%", points: "3500", image: "https://via.placeholder.com/60/0a0e17/4A90D9?text=🃏" },
+            { name: "Fantic CountryBalls", rarity: "Редкий", emoji: "🔵", desc: "Редкая карточка", chance: "25%", points: "3500", image: "https://via.placeholder.com/60/0a0e17/4A90D9?text=🃏" },
+            { name: "Гулаг", rarity: "Редкий", emoji: "🔵", desc: "Редкая карточка", chance: "25%", points: "3500", image: "https://via.placeholder.com/60/0a0e17/4A90D9?text=🃏" },
+            { name: "Дийоберк", rarity: "Редкий", emoji: "🔵", desc: "Редкая карточка", chance: "25%", points: "3500", image: "https://via.placeholder.com/60/0a0e17/4A90D9?text=🃏" },
+            { name: "Нубик КБ", rarity: "Редкий", emoji: "🔵", desc: "Редкая карточка", chance: "25%", points: "3500", image: "https://via.placeholder.com/60/0a0e17/4A90D9?text=🃏" },
+            { name: "Макся", rarity: "Редкий", emoji: "🔵", desc: "Редкая карточка", chance: "25%", points: "3500", image: "https://via.placeholder.com/60/0a0e17/4A90D9?text=🃏" },
+            { name: "Квиз Демократия", rarity: "Эпический", emoji: "🟣", desc: "Эпическая карточка", chance: "10%", points: "7000", image: "https://via.placeholder.com/60/0a0e17/9C27B0?text=🃏" },
+            { name: "Казахский-Каганат", rarity: "Эпический", emoji: "🟣", desc: "Эпическая карточка", chance: "10%", points: "7000", image: "https://via.placeholder.com/60/0a0e17/9C27B0?text=🃏" },
+            { name: "Султан", rarity: "Эпический", emoji: "🟣", desc: "Эпическая карточка", chance: "10%", points: "7000", image: "https://via.placeholder.com/60/0a0e17/9C27B0?text=🃏" },
+            { name: "Давид", rarity: "Эпический", emoji: "🟣", desc: "Эпическая карточка", chance: "10%", points: "7000", image: "https://via.placeholder.com/60/0a0e17/9C27B0?text=🃏" },
+            { name: "Эдвард", rarity: "Эпический", emoji: "🟣", desc: "Эпическая карточка", chance: "10%", points: "7000", image: "https://via.placeholder.com/60/0a0e17/9C27B0?text=🃏" },
+            { name: "Эмбер", rarity: "Эпический", emoji: "🟣", desc: "Эпическая карточка", chance: "10%", points: "7000", image: "https://via.placeholder.com/60/0a0e17/9C27B0?text=🃏" },
+            { name: "ТЮЛЕНЬ (Ушёл)", rarity: "Легендарный", emoji: "🟡", desc: "Легендарная карточка", chance: "5%", points: "15000", image: "https://via.placeholder.com/60/0a0e17/FFD700?text=🃏" },
+            { name: "Б7", rarity: "Легендарный", emoji: "🟡", desc: "Легендарная карточка", chance: "5%", points: "15000", image: "https://via.placeholder.com/60/0a0e17/FFD700?text=🃏" },
+            { name: "Фанька", rarity: "Легендарный", emoji: "🟡", desc: "Легендарная карточка", chance: "5%", points: "15000", image: "https://via.placeholder.com/60/0a0e17/FFD700?text=🃏" },
+            { name: "Мистер Болл", rarity: "Секретный", emoji: "🔴", desc: "Секретная карточка", chance: "3%", points: "30000", image: "https://via.placeholder.com/60/0a0e17/F44336?text=🃏" },
+            { name: "CRW (Создатель)", rarity: "Секретный", emoji: "🔴", desc: "Секретная карточка", chance: "3%", points: "30000", image: "https://via.placeholder.com/60/0a0e17/F44336?text=🃏" },
+            { name: "Все Ютуберы по КБ", rarity: "Эксклюзивный", emoji: "🔮", desc: "Эксклюзивная карточка", chance: "0.01%", points: "100000", image: "https://via.placeholder.com/60/0a0e17/00E5FF?text=🃏" }
+        ];
+
+        // --- СОСТОЯНИЕ АВТОРИЗАЦИИ ---
+        let isAuthorized = false;
+        let userCards = [];
+        let userName = "";
+        let userPoints = 0;
+        let userRank = 1;
+        let userAvatar = "";
+
+        // --- РЕЙТИНГ (ДАННЫЕ ИЗ ТЕЛЕГРАММА) ---
+        const RATING_DATA = [
+            { name: "BlockDavidYT", rank: 10, points: 250000, cards: 26 },
+            { name: "Игрок_1", rank: 8, points: 180000, cards: 22 },
+            { name: "Игрок_2", rank: 7, points: 150000, cards: 20 },
+            { name: "Игрок_3", rank: 6, points: 120000, cards: 18 },
+            { name: "Игрок_4", rank: 5, points: 90000, cards: 16 },
+            { name: "Игрок_5", rank: 4, points: 70000, cards: 14 },
+            { name: "Игрок_6", rank: 3, points: 50000, cards: 12 },
+            { name: "Игрок_7", rank: 2, points: 30000, cards: 10 },
+            { name: "Игрок_8", rank: 1, points: 15000, cards: 8 },
+            { name: "Игрок_9", rank: 1, points: 5000, cards: 5 }
+        ];
+
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
+        function openProfileModal() {
+            if (!isAuthorized) {
+                showToast('❌ Авторизуйтесь, чтобы увидеть свой профиль!');
+                openLoginModal();
+                return;
+            }
+            document.getElementById('profileModal').classList.add('active');
+            renderProfile();
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').classList.remove('active');
+        }
+
+        function loginUser(userData) {
+            isAuthorized = true;
+            userCards = userData.cards || [];
+            userName = userData.name || "Игрок";
+            userPoints = userData.points || 0;
+            userRank = userData.rank || 1;
+            userAvatar = userData.avatar || "https://cdn.jsdelivr.net/npm/@telegraf/entity/dist/telegram-avatar.png";
+            updateUI();
+            renderCollection();
+            renderRating();
+            document.getElementById('userCards').textContent = userCards.length;
+            closeLoginModal();
+            showToast('✅ Добро пожаловать, ' + userName + '!');
+        }
+
+        function logoutUser() {
+            isAuthorized = false;
+            userCards = [];
+            userName = "";
+            userPoints = 0;
+            userRank = 1;
+            userAvatar = "";
+            updateUI();
+            renderCollection();
+            renderRating();
+            document.getElementById('userCards').textContent = '0';
+            showToast('👋 Вы вышли из аккаунта');
+        }
+
+        function updateUI() {
+            const authSection = document.getElementById('authSection');
+            if (isAuthorized) {
+                authSection.innerHTML = `
+                    <div class="user-profile" onclick="openProfileModal()">
+                        <img src="${userAvatar}" alt="Аватар" class="user-avatar" onerror="this.src='https://cdn.jsdelivr.net/npm/@telegraf/entity/dist/telegram-avatar.png'">
+                        <span class="user-name">${userName}</span>
+                        <span class="user-status">🟢</span>
+                        <button class="logout-btn" onclick="event.stopPropagation();logoutUser()">✕</button>
+                    </div>
+                `;
+            } else {
+                authSection.innerHTML = `
+                    <button class="auth-btn" onclick="openLoginModal()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="white">
+                            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                        </svg>
+                        Войти
+                    </button>
+                `;
+            }
+        }
+
+        function renderProfile() {
+            document.getElementById('profileName').textContent = '👤 ' + userName;
+            document.getElementById('profileStats').textContent = '🎖️ Ранг: ' + userRank + ' | 💰 Очков: ' + userPoints + ' | 🃏 Карт: ' + userCards.length;
+
+            const container = document.getElementById('profileCards');
+            if (userCards.length === 0) {
+                container.innerHTML = '<p style="color:#666; font-size:0.8rem;">У вас пока нет карт. Крутите рулетку!</p>';
+                return;
+            }
+
+            let html = '';
+            for (const cardName of userCards) {
+                const card = CARDS_DATA.find(c => c.name === cardName);
+                if (card) {
+                    html += `
+                        <div class="profile-card-mini">
+                            <div class="pc-emoji">${card.emoji}</div>
+                            <div class="pc-name">${card.name}</div>
+                            <div class="pc-rarity">${card.rarity}</div>
+                            <div class="pc-owned">✅ В коллекции</div>
+                        </div>
+                    `;
+                }
+            }
+            container.innerHTML = html;
+        }
+
+        function renderCollection() {
+            const container = document.getElementById('collectionContainer');
+            let html = '<div class="collection-grid">';
+
+            for (const card of CARDS_DATA) {
+                const isOwned = isAuthorized && userCards.includes(card.name);
+                const rarityClass = card.rarity.toLowerCase();
+
+                html += `
+                    <div class="card-item">
+                        <div class="card-top">
+                            <img src="${card.image}" alt="${card.name}" class="card-image" onerror="this.style.display='none'">
+                            <div class="card-info">
+                                <div class="card-name">${card.emoji} ${card.name}</div>
+                                <span class="card-rarity ${rarityClass}">${card.rarity}</span>
+                            </div>
+                            ${isOwned ? '<div class="card-owned">✅ В коллекции</div>' : ''}
+                        </div>
+                        <div class="card-desc">${card.desc}</div>
+                        <div class="card-stats">
+                            <span>🎯 Шанс: ${card.chance}</span>
+                            <span class="points">💰 ${card.points} очков</span>
+                        </div>
+                        ${!isAuthorized ? `
+                            <div class="card-locked">
+                                <div class="lock-icon">🔒</div>
+                                <div class="lock-text">Авторизуйтесь через Telegram</div>
+                            </div>
+                        ` : ''}
+                        ${isAuthorized && !isOwned ? `
+                            <div class="card-locked" style="background: rgba(10,14,23,0.7);">
+                                <div class="lock-icon">❓</div>
+                                <div class="lock-text">Ещё не выбито</div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function renderRating() {
+            const container = document.getElementById('ratingContainer');
+
+            const sortedRating = [...RATING_DATA].sort((a, b) => {
+                if (b.rank !== a.rank) return b.rank - a.rank;
+                if (b.points !== a.points) return b.points - a.points;
+                return b.cards - a.cards;
+            });
+
+            let html = '<div class="rating-list">';
+            const medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
+
+            for (let i = 0; i < Math.min(sortedRating.length, 10); i++) {
+                const player = sortedRating[i];
+                let placeClass = '';
+                if (i === 0) placeClass = 'gold';
+                else if (i === 1) placeClass = 'silver';
+                else if (i === 2) placeClass = 'bronze';
+
+                html += `
+                    <div class="rating-item">
+                        <div class="place ${placeClass}">${medals[i]}</div>
+                        <div class="ruser">${player.name}</div>
+                        <div class="rrank">🎖️ ${player.rank} ранг</div>
+                        <div class="rpoints">💰 ${player.points}</div>
+                        <div class="rcards">🃏 ${player.cards}</div>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toast.timeout);
+            toast.timeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // --- АВТОРИЗАЦИЯ ЧЕРЕЗ ТОКЕН ИЗ URL ---
+        function handleAuthFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const userId = params.get('user_id');
+            const token = params.get('token');
+
+            if (userId && token) {
+                // Здесь будет запрос к боту для проверки токена
+                // Пока используем тестовые данные с реальными именами и аватарками
+                const testData = {
+                    name: "Игрок #" + userId,
+                    points: 15000,
+                    rank: 3,
+                    cards: ['Стедка', 'Бульбо', 'Глеб89К', 'Квиз Демократия', 'ТЮЛЕНЬ (Ушёл)'],
+                    avatar: `https://cdn.jsdelivr.net/npm/@telegraf/entity/dist/telegram-avatar.png`
+                };
+                
+                // Попытка получить реальную аватарку через Telegram API
+                fetch(`https://api.telegram.org/bot8745713277:AAEkRvxz7ExEeh_3J5i8Xddei0EeSScEEQA/getUserProfilePhotos?user_id=${userId}&limit=1`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.ok && data.result.total_count > 0) {
+                            const fileId = data.result.photos[0][0].file_id;
+                            // Получаем ссылку на файл
+                            fetch(`https://api.telegram.org/bot8745713277:AAEkRvxz7ExEeh_3J5i8Xddei0EeSScEEQA/getFile?file_id=${fileId}`)
+                                .then(res => res.json())
+                                .then(fileData => {
+                                    if (fileData.ok) {
+                                        testData.avatar = `https://api.telegram.org/file/bot8745713277:AAEkRvxz7ExEeh_3J5i8Xddei0EeSScEEQA/${fileData.result.file_path}`;
+                                    }
+                                    loginUser(testData);
+                                })
+                                .catch(() => loginUser(testData));
+                        } else {
+                            loginUser(testData);
+                        }
+                    })
+                    .catch(() => loginUser(testData));
+                
+                // Очищаем URL от параметров
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+
+        document.getElementById('loginModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLoginModal();
+            }
+        });
+
+        document.getElementById('profileModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeProfileModal();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateUI();
+            renderCollection();
+            renderRating();
+            handleAuthFromURL();
+            document.getElementById('totalCards').textContent = CARDS_DATA.length;
+        });
+    </script>
+
+</body>
+</html>
