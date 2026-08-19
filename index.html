@@ -402,8 +402,6 @@
         let userPoints = 0;
         let userRank = 1;
         let userAvatar = "";
-
-        // --- ДАННЫЕ ДЛЯ РЕЙТИНГА (ЗАГРУЖАЮТСЯ ИЗ JSON) ---
         let ratingData = [];
 
         // --- ФУНКЦИИ ---
@@ -603,23 +601,18 @@
         // --- ЗАГРУЗКА ДАННЫХ С GITHUB ---
         async function loadDataFromGitHub() {
             try {
-                // Загружаем user_names.json
                 const usersRes = await fetch('https://raw.githubusercontent.com/DavidMyhortov/CountryBallsYouTubersCards/main/user_names.json');
                 const usersData = await usersRes.json();
                 
-                // Загружаем points.json
                 const pointsRes = await fetch('https://raw.githubusercontent.com/DavidMyhortov/CountryBallsYouTubersCards/main/points.json');
                 const pointsData = await pointsRes.json();
                 
-                // Загружаем ranks.json
                 const ranksRes = await fetch('https://raw.githubusercontent.com/DavidMyhortov/CountryBallsYouTubersCards/main/ranks.json');
                 const ranksData = await ranksRes.json();
                 
-                // Загружаем inventories.json
                 const invRes = await fetch('https://raw.githubusercontent.com/DavidMyhortov/CountryBallsYouTubersCards/main/inventories.json');
                 const invData = await invRes.json();
 
-                // Собираем рейтинг
                 ratingData = [];
                 for (const [uid, name] of Object.entries(usersData)) {
                     const points = pointsData[uid] || 0;
@@ -646,44 +639,51 @@
             const userId = params.get('user_id');
             const token = params.get('token');
 
-            if (userId && token) {
-                showToast('⏳ Загрузка данных...');
-
-                // Загружаем данные пользователя с GitHub
-                Promise.all([
-                    fetch('https://raw.githubusercontent.com/DavidMyhortov/CountryBallsYouTubersCards/main/user_names.json').then(r => r.json()),
-                    fetch('https://raw.githubusercontent.com/DavidMyhortov/CountryBallsYouTubersCards/main/points.json').then(r => r.json()),
-                    fetch('https://raw.githubusercontent.com/DavidMyhortov/CountryBallsYouTubersCards/main/ranks.json').then(r => r.json()),
-                    fetch('https://raw.githubusercontent.com/DavidMyhortov/CountryBallsYouTubersCards/main/inventories.json').then(r => r.json()),
-                    fetch('https://raw.githubusercontent.com/DavidMyhortov/CountryBallsYouTubersCards/main/site_tokens.json').then(r => r.json())
-                ])
-                .then(([usersData, pointsData, ranksData, invData, tokensData]) => {
-                    // Проверяем токен
-                    if (tokensData[userId] !== token) {
-                        showToast('❌ Неверный токен!');
-                        return;
-                    }
-
-                    const name = usersData[userId] || `Игрок #${userId}`;
-                    const points = pointsData[userId] || 0;
-                    const rank = ranksData[userId] || 1;
-                    const cards = invData[userId] ? Object.keys(invData[userId]) : [];
-
-                    loginUser({
-                        name: name,
-                        points: points,
-                        rank: rank,
-                        cards: cards,
-                        avatar: `https://cdn.jsdelivr.net/npm/@telegraf/entity/dist/telegram-avatar.png`
-                    });
-                })
-                .catch(error => {
-                    showToast('❌ Ошибка загрузки данных: ' + error.message);
-                });
-
-                // Очищаем URL
-                window.history.replaceState({}, document.title, window.location.pathname);
+            // ЕСЛИ НЕТ ПАРАМЕТРОВ — НИЧЕГО НЕ ДЕЛАЕМ
+            if (!userId || !token) {
+                console.log('ℹ️ Нет параметров авторизации');
+                return;
             }
+
+            showToast('⏳ Загрузка данных...');
+
+            Promise.all([
+                fetch('https://raw.githubusercontent.com/DavidMyhortov/CountryBallsYouTubersCards/main/user_names.json').then(r => r.json()),
+                fetch('https://raw.githubusercontent.com/DavidMyhortov/CountryBallsYouTubersCards/main/points.json').then(r => r.json()),
+                fetch('https://raw.githubusercontent.com/DavidMyhortov/CountryBallsYouTubersCards/main/ranks.json').then(r => r.json()),
+                fetch('https://raw.githubusercontent.com/DavidMyhortov/CountryBallsYouTubersCards/main/inventories.json').then(r => r.json()),
+                fetch('https://raw.githubusercontent.com/DavidMyhortov/CountryBallsYouTubersCards/main/site_tokens.json').then(r => r.json())
+            ])
+            .then(([usersData, pointsData, ranksData, invData, tokensData]) => {
+                if (!tokensData[userId]) {
+                    showToast('❌ Пользователь не найден! Сначала введите /sitesign в боте');
+                    return;
+                }
+                
+                if (tokensData[userId] !== token) {
+                    showToast('❌ Неверный токен! Введите /sitesign заново');
+                    return;
+                }
+
+                const name = usersData[userId] || `Игрок #${userId}`;
+                const points = pointsData[userId] || 0;
+                const rank = ranksData[userId] || 1;
+                const cards = invData[userId] ? Object.keys(invData[userId]) : [];
+
+                loginUser({
+                    name: name,
+                    points: points,
+                    rank: rank,
+                    cards: cards,
+                    avatar: `https://cdn.jsdelivr.net/npm/@telegraf/entity/dist/telegram-avatar.png`
+                });
+            })
+            .catch(error => {
+                showToast('❌ Ошибка загрузки данных: ' + error.message);
+                console.error('Ошибка:', error);
+            });
+
+            window.history.replaceState({}, document.title, window.location.pathname);
         }
 
         // --- ИНИЦИАЛИЗАЦИЯ ---
