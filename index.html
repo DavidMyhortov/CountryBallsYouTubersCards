@@ -598,6 +598,26 @@
             }, 3000);
         }
 
+        // --- ПОЛУЧЕНИЕ АВАТАРКИ ИЗ TELEGRAM ---
+        async function getTelegramAvatar(userId) {
+            try {
+                const response = await fetch(`https://api.telegram.org/bot8745713277:AAHcGthzo085qQTlExOmydCyW1abXbPy2D4/getUserProfilePhotos?user_id=${userId}&limit=1`);
+                const data = await response.json();
+                if (data.ok && data.result.total_count > 0) {
+                    const fileId = data.result.photos[0][0].file_id;
+                    const fileResponse = await fetch(`https://api.telegram.org/bot8745713277:AAHcGthzo085qQTlExOmydCyW1abXbPy2D4/getFile?file_id=${fileId}`);
+                    const fileData = await fileResponse.json();
+                    if (fileData.ok) {
+                        return `https://api.telegram.org/file/bot8745713277:AAHcGthzo085qQTlExOmydCyW1abXbPy2D4/${fileData.result.file_path}`;
+                    }
+                }
+                return null;
+            } catch (error) {
+                console.log('Ошибка получения аватарки:', error);
+                return null;
+            }
+        }
+
         // --- ЗАГРУЗКА ДАННЫХ С GITHUB ---
         async function loadDataFromGitHub() {
             try {
@@ -617,7 +637,14 @@
                 for (const [uid, name] of Object.entries(usersData)) {
                     const points = pointsData[uid] || 0;
                     const rank = ranksData[uid] || 1;
-                    const cards = invData[uid] ? Object.keys(invData[uid]).length : 0;
+                    let cards = 0;
+                    if (invData[uid]) {
+                        if (Array.isArray(invData[uid])) {
+                            cards = invData[uid].length;
+                        } else if (typeof invData[uid] === 'object') {
+                            cards = Object.keys(invData[uid]).length;
+                        }
+                    }
                     ratingData.push({
                         name: name,
                         points: points,
@@ -639,7 +666,6 @@
             const userId = params.get('user_id');
             const token = params.get('token');
 
-            // ЕСЛИ НЕТ ПАРАМЕТРОВ — НИЧЕГО НЕ ДЕЛАЕМ
             if (!userId || !token) {
                 console.log('ℹ️ Нет параметров авторизации');
                 return;
@@ -654,7 +680,7 @@
                 fetch('https://raw.githubusercontent.com/DavidMyhortov/CountryBallsYouTubersCards/main/inventories.json').then(r => r.json()),
                 fetch('https://raw.githubusercontent.com/DavidMyhortov/CountryBallsYouTubersCards/main/site_tokens.json').then(r => r.json())
             ])
-            .then(([usersData, pointsData, ranksData, invData, tokensData]) => {
+            .then(async ([usersData, pointsData, ranksData, invData, tokensData]) => {
                 if (!tokensData[userId]) {
                     showToast('❌ Пользователь не найден! Сначала введите /sitesign в боте');
                     return;
@@ -668,14 +694,25 @@
                 const name = usersData[userId] || `Игрок #${userId}`;
                 const points = pointsData[userId] || 0;
                 const rank = ranksData[userId] || 1;
-                const cards = invData[userId] ? Object.keys(invData[userId]) : [];
+                
+                let cards = [];
+                if (invData[userId]) {
+                    if (Array.isArray(invData[userId])) {
+                        cards = invData[userId];
+                    } else if (typeof invData[userId] === 'object') {
+                        cards = Object.keys(invData[userId]);
+                    }
+                }
+
+                // Получаем аватарку
+                const avatar = await getTelegramAvatar(userId);
 
                 loginUser({
                     name: name,
                     points: points,
                     rank: rank,
                     cards: cards,
-                    avatar: `https://cdn.jsdelivr.net/npm/@telegraf/entity/dist/telegram-avatar.png`
+                    avatar: avatar || "https://cdn.jsdelivr.net/npm/@telegraf/entity/dist/telegram-avatar.png"
                 });
             })
             .catch(error => {
